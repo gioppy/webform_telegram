@@ -1,0 +1,80 @@
+<?php
+
+/**
+* @file
+* This module provides a simple way to create forms and questionnaires.
+*
+* The initial development of this module was sponsered by ÅF Industri AB, Open
+* Source City and Karlstad University Library. Continued development sponsored
+* by Lullabot.
+*
+* @author Nathan Haug <nate@lullabot.com>
+*/
+
+/**
+* Implements hook_menu().
+*/
+function webform_telegram_menu(){
+  $items = array();
+
+  // Node telegram message forms.
+  $items['node/%webform_menu/webform/telegram'] = array(
+    'title' => 'Telegram',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('webform_telegram_form', 1),
+    'access callback' => 'webform_node_update_access',
+    'access arguments' => array(1),
+    'file' => 'includes/webform.telegram.inc',
+    'weight' => 4,
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['node/%webform_menu/webform/telegram/%webform_menu_email'] = array(
+    'load arguments' => array(1),
+    'page arguments' => array('webform_telegram_edit_form', 1, 4),
+    'access callback' => 'webform_node_update_access',
+    'access arguments' => array(1),
+    'file' => 'includes/webform.telegram.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['node/%webform_menu/webform/telegram/%webform_menu_email/clone'] = array(
+    'load arguments' => array(1),
+    'page arguments' => array('webform_telegram_edit_form', 1, 4, TRUE),
+    'access callback' => 'webform_node_update_access',
+    'access arguments' => array(1),
+    'file' => 'includes/webform.telegram.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['node/%webform_menu/webform/telegram/%webform_menu_email/delete'] = array(
+    'load arguments' => array(1),
+    'page arguments' => array('webform_telegram_delete_form', 1, 4),
+    'access callback' => 'webform_node_update_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+* Implements hook_theme().
+*/
+function webform_telegram_theme(){
+  return array(
+    'webform_telegram_form' => array(
+      'render element' => 'form',
+      'file' => 'includes/webform.telegram.inc',
+    ),
+    /*'webform_email_component_mapping' => array(
+      'render element' => 'element',
+      'file' => 'includes/webform.emails.inc',
+    ),
+    'webform_email_add_form' => array(
+      'render element' => 'form',
+      'file' => 'includes/webform.emails.inc',
+    ),*/
+    'webform_telegram_edit_form' => array(
+      'render element' => 'form',
+      'file' => 'includes/webform.telegram.inc',
+    ),
+  );
+}
